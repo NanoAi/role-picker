@@ -313,10 +313,7 @@
 			var templateScript = Handlebars.compile(template);
 			// https://pastebin.com/raw/sXPktQ7h
 
-			var blob = new Blob(["(function(){",
-				"function getUrlParams() { var vars = {}; var parts = (\"" + window.location.href + "\").replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {vars[key] = value;});return vars;}",
-				'!function(){var e=getUrlParams().url;if(!(""===e)){var t=new XMLHttpRequest;t.onreadystatechange=function(){4==t.readyState&&200==t.status&&postMessage(t.responseText),console.log(t.responseText,t.readyState,t.status)},t.open("GET",e,!1),t.send()}}();',
-			"})()"], { type: "text/javascript" });
+			var blob=new Blob(["(function(){",'function getUrlParams() { var vars = {}; var parts = ("'+window.location.href+'").replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {vars[key] = value;});return vars;}','!function(){var e=getUrlParams().url;if(!(""===e)){var t=new XMLHttpRequest;t.onreadystatechange=function(){4==t.readyState&&200==t.status&&postMessage(t.responseText)},t.open("GET",e,!1),t.send()}}();',"})()"],{type:"text/javascript"});
 
 			setTimeout(function(){
 				let blobURL = window.URL.createObjectURL(blob);
@@ -331,7 +328,6 @@
 			}, 2000);
 
 			function parser(e) {
-				var anim;
 				var context = JSON.parse(e.data);
 				var html = templateScript(context);
 
@@ -349,16 +345,15 @@
 
 						base.onclick = function(){
 							let icon = role.querySelector("i.icons");
-							role.lock = true;
 							role.on = !(role.on);
 							if (role.on) {
 								role.style.width = "60px";
 								icon.style.color = (b > 125) ? '#000' : '#fff';
 								icon.style.opacity = 1;
-								clearTimeout(anim);
+								clearTimeout(base.animationTimer);
 							} else {
 								icon.style.opacity = 0;
-								anim = setTimeout(function(){role.style.width = null;}, 250);
+								base.animationTimer = setTimeout(function(){role.style.width = null;}, 250);
 							}
 
 							return false;
