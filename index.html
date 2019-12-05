@@ -273,7 +273,12 @@
 						base.style = `border-color:${rgb};`;
 
 						base.onclick = function(){
+							if ( role.lock ) {
+								return false;
+							}
+
 							let icon = role.querySelector("i.icons");
+							role.lock = true;
 							role.on = !(role.on);
 							if (role.on) {
 								role.style.width = "60px";
@@ -285,6 +290,8 @@
 								setTimeout(function(){role.style.width = null;}, 100);
 								setTimeout(function(){icon.style = null;}, 510);
 							}
+
+							setTimeout(function(){role.lock = null;}, 550);
 							return false;
 						}
 					});
