@@ -33,8 +33,28 @@ document.getElementById("submit").onclick = function(e) {
 };
 
 function parser( data ) {
-	var context = JSON.parse( data );
-	var html = templateScript(context);
+	var context;
+	var html;
+
+	try {
+		context = JSON.parse( data );
+		html = templateScript(context);
+
+		if ( Object.keys(context).length == 0 ) {
+			throw "No objects found in data!";
+		}
+	} catch( error ) {
+		let roleData = document.getElementById("rolesData");
+		console.error(error);
+		roleData.classList.add("shake");
+		roleData.value = null;
+		roleData.placeholder = "Roles Data <- Please fix this. :(";
+		document.getElementById("submit").innerText = "I fixed it, let's go!";
+		setTimeout(function(){
+			roleData.classList.remove("shake");
+		}, 820)
+		return;
+	}
 
 	$("div.list-group").append(html).append(function() {
 		$(".role-colour").each(function() {
