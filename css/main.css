@@ -179,6 +179,10 @@ a.list-group-item:before {
     color: #999;
 }
 
+.loader small a {
+    color: #fff!important;
+}
+
 .loader div img {
     max-width: 100%;
     margin-left: auto;
